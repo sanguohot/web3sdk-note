@@ -32,13 +32,12 @@ build  build.gradle  evidence  lib  src
 ```
 $ yes|cp /opt/10.0.252.5_agent1/build/web3sdk/conf/* ./evidence/conf/
 ```
-## 修改配置:
+## 执行程序:
 ```
-$ java -cp '/opt/web3sdk/dist/conf/:/opt/web3sdk/dist/apps/*:/opt/web3sdk/dist/lib/*:..' test.Server hello
-2018-10-17 10:22:00server:收到PUSH消息:request seq:3bf86c5268f84a339baf4834c28b984d
-```
-## 客户端往主题推送消息（注意整个连接过程可能持续几十秒）:
-```
-$ java -cp '/opt/web3sdk/dist/conf/:/opt/web3sdk/dist/apps/*:/opt/web3sdk/dist/lib/*:..' test.Client hello "my name is 007" 2
-2018-10-17 10:22:00收到回包 seq:3bf86c5268f84a339baf4834c28b984d, 错误码:0, 内容:receive request seq:3bf86c5268f84a339baf4834c28b984d
+$ cd evidence/bin && chmod +x *.sh evidence && ll
+total 20
+-rwxr-xr-x. 1 root root 1128 Oct 17 11:32 compile.sh
+-rwxr-xr-x. 1 root root 8458 Oct 17 11:32 evidence
+-rwxr-xr-x. 1 root root  809 Oct 17 11:32 runEvidence.sh
+$ ./runEvidence.sh
 ```
