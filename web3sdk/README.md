@@ -4,6 +4,12 @@
 $ git clone https://github.com/FISCO-BCOS/web3sdk /opt/web3sdk
 $ cd /opt/web3sdk && find ./ -name "*.sh" | xargs chmod +x
 ```
+## web3sdk默认的连接超时时间是30秒，某些环境可能不足，可以选择增大为60秒或者90秒
+
+```
+$ cat src/main/java/org/bcos/channel/client/Service.java | grep "private Integer connectSeconds"
+        private Integer connectSeconds = 30;
+```
 ## 开始编译:
 ```
 $ ./compile.sh
