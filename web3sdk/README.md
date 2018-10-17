@@ -38,8 +38,12 @@ execute command gradle build SUCCESS
 $ yes|cp /opt/10.0.252.5_agent1/build/web3sdk/conf/* ./dist/conf/
 ```
 ## 修改配置:
-#### 确认/opt/web3sdk/dist/conf/applicationContext.xml配置的监听ip和端口与区块链一致
+#### 确保/opt/web3sdk/dist/conf/applicationContext.xml配置的监听ip和端口与区块链一致
 ```
+$ cat /opt/10.0.252.5_agent1/build/node0/config.json|grep channelPort
+    "channelPort":"8821",
+$ netstat -antp|grep 8821
+tcp        0      0 0.0.0.0:8821            0.0.0.0:*               LISTEN      676/./fisco-bcos
 $ vi /opt/web3sdk/dist/conf/applicationContext.xml  
 ```
 #### 如果是调试AMOP极简的例子需要保证客户端和服务端连接不同的节点（机构），可以简单的拷贝一份配置文件做修改
