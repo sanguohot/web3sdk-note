@@ -47,3 +47,45 @@ $ vi /opt/web3sdk/dist/conf/applicationContext.xml
 $ cp /opt/web3sdk/dist/conf/applicationContext.xml /opt/web3sdk/dist/conf/applicationContext2.xml
 $ vi /opt/web3sdk/dist/conf/applicationContext2.xml  
 ```
+#### 确认一下两个配置文件连接的节点是不一样的，如果调试的是存证样例，这一步可以忽略
+```
+$ diff /opt/web3sdk/dist/conf/applicationContext.xml /opt/web3sdk/dist/conf/applicationContext2.xml
+48c48
+<                                                               <value>node1@127.0.0.1:8821</value>  
+---
+>                                                               <value>node1@127.0.0.1:8822</value>  
+```
+## 查看web3sdk日志:
+```
+查找日志目录，./log/是指程序执行当前目录
+$ cat /opt/web3sdk/dist/conf/log4j2.xml|grep logPath
+        <Property name="logPath">./log/</Property>
+                <RollingFile name="fileAppender" fileName="${logPath}all.log"
+                                         filePattern="${logPath}all.log.%d{yyyy-MM-dd}.%i.log.gz">
+                <RollingFile name="debugLog" fileName="${logPath}debug.log"
+                                         filePattern="${logPath}debug.log.%d{yyyy-MM-dd}.%i.log.gz">
+                <RollingFile name="infoLog" fileName="${logPath}info.log"
+                                         filePattern="${logPath}info.log.%d{yyyy-MM-dd}.%i.log.gz">
+                <RollingFile name="warnLog" fileName="${logPath}warn.log"
+                                         filePattern="${logPath}warn.log.%d{yyyy-MM-dd}.%i.log.gz">
+                <RollingFile name="errorLog" fileName="${logPath}error.log"
+                                         filePattern="${logPath}error.log.%d{yyyy-MM-dd}.%i.log.gz">
+$ ll log
+total 208
+-rw-r--r--. 1 root root 105501 Oct 17 10:28 all.log
+-rw-r--r--. 1 root root 105501 Oct 17 10:28 debug.log
+-rw-r--r--. 1 root root      0 Oct 17 10:27 error.log
+-rw-r--r--. 1 root root      0 Oct 17 10:27 info.log
+-rw-r--r--. 1 root root      0 Oct 17 10:27 warn.log
+$ tail -f log/all.log
+2018-10-17 10:28:55.911 [nioEventLoopGroup-2-1] DEBUG ChannelPush2() - send ChannelResponse seq:null
+2018-10-17 10:28:55.912 [nioEventLoopGroup-2-1] DEBUG Service() - response seq:d3db34b96ccf495d9e1a273de34cdb5a length:0
+2018-10-17 10:28:55.913 [nioEventLoopGroup-2-1] DEBUG Service() - channel2 message
+2018-10-17 10:28:55.913 [nioEventLoopGroup-2-1] DEBUG ChannelMessage2() - readExtra channel2 package: 0
+2018-10-17 10:28:55.913 [nioEventLoopGroup-2-1] DEBUG ChannelMessage2() - data: 52 [114, 101, 99, 101, 105, 118, 101, 32, 114, 101, 113, 117, 101, 115, 116, 32, 115, 101, 113, 58, 100, 51, 100, 98, 51, 52, 98, 57, 54, 99, 99, 102, 52, 57, 53, 100, 57, 101, 49, 97, 50, 55, 51, 100, 101, 51, 52, 99, 100, 98, 53, 97]
+2018-10-17 10:28:55.914 [nioEventLoopGroup-2-1] DEBUG Service() - ChannelResponse seq:d3db34b96ccf495d9e1a273de34cdb5a
+2018-10-17 10:28:55.914 [nioEventLoopGroup-2-1] DEBUG Service() - channel message:d3db34b96ccf495d9e1a273de34cdb5a
+2018-10-17 10:28:55.914 [nioEventLoopGroup-2-1] DEBUG Service() - found callback response
+2018-10-17 10:28:55.914 [nioEventLoopGroup-2-1] DEBUG Service() - response: receive request seq:d3db34b96ccf495d9e1a273de34cdb5a
+2018-10-17 10:28:56.863 [threadDeathWatcher-3-1] DEBUG PoolThreadCache() - Freed 1 thread-local buffer(s) from thread: threadDeathWatcher-3-1
+```
